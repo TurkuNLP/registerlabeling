@@ -1,6 +1,7 @@
 from datasets import load_dataset
 import sys
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from pathlib import Path
 
 def argparser():
     ap = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
@@ -10,6 +11,8 @@ def argparser():
 
 def main(argv):
     options = argparser().parse_args(argv[1:])
+
+    Path("./data").mkdir(parents=True, exist_ok=True)
 
     dataset = load_dataset('oscar', f'unshuffled_deduplicated_{options.lang}', cache_dir='./data', split='train')
     dataset.to_csv(f'./data/{options.lang}.csv')
